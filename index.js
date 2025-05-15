@@ -12,11 +12,15 @@ app.use(express.json());
 
 app.get("/", async (req, res) => {
   await db.read();
-  db.data ||= { news: [] }; // ফাঁকা থাকলে ডিফল্ট ডেটা সেট করবে
+
+  // যদি ডেটা ফাঁকা থাকে, তাহলে ডিফল্ট ডেটা দাও
+  db.data ||= { news: [] };
   await db.write();
+
   res.send("Welcome to Dainik Khobor!");
 });
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
-});
+})
+
