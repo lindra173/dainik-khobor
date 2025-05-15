@@ -12,6 +12,8 @@ app.use(express.json());
 
 app.get("/", async (req, res) => {
   await db.read();
+  db.data ||= { news: [] }; // ফাঁকা থাকলে ডিফল্ট ডেটা সেট করবে
+  await db.write();
   res.send("Welcome to Dainik Khobor!");
 });
 
