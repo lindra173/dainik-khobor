@@ -13,14 +13,15 @@ app.use(express.json());
 app.get("/", async (req, res) => {
   await db.read();
 
-  // যদি ডেটা ফাঁকা থাকে, তাহলে ডিফল্ট ডেটা দাও
-  db.data ||= { news: [] };
-  await db.write();
+  // সমস্যার সমাধান: যদি db.data না থাকে, তাহলে সেট করো
+  if (!db.data) {
+    db.data = { news: [] };
+    await db.write();
+  }
 
   res.send("Welcome to Dainik Khobor!");
 });
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
-})
-
+});
